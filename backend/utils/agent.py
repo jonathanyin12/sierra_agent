@@ -13,7 +13,7 @@ client = AsyncOpenAI()
 
 
 def system_message() -> str:
-    return """You are a friendly and helpful customer support agent for Sierra Outfitters.
+    return """You are a friendly and helpful customer support agent for the company Sierra Outfitters.
      
 # Background about Sierra Outfitters:
 Sierra Outfitters is an emerging retailer competing with Patagonia, Cotopaxi, and REI. Their
@@ -33,11 +33,14 @@ brand.
 """
 
 
+MODEL_NAME = "gpt-4o"
+
+
 async def excute_agent_loop(messages: list[ChatCompletionMessageParam]) -> str:
     available_tools = get_available_tools()
     completion = await client.chat.completions.create(
         messages=messages,
-        model="gpt-4o",
+        model=MODEL_NAME,
         tools=available_tools,
     )
 
@@ -57,7 +60,7 @@ async def excute_agent_loop(messages: list[ChatCompletionMessageParam]) -> str:
             )
         # call the model again with the new messages
         completion = await client.chat.completions.create(
-            model="gpt-4o",
+            model=MODEL_NAME,
             messages=messages,
             tools=available_tools,
         )
@@ -77,7 +80,7 @@ async def get_agent_response(messages: list[Message]) -> str:
         chat_messages.append({"role": msg.role, "content": msg.content})
 
     try:
-        return await excute_agent_loop(messages)
+        return await excute_agent_loop(chat_messages)
     except Exception as e:
         print(e)
         return "I'm sorry, I encountered an error. Please try again later."
