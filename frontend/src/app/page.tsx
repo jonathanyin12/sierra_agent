@@ -12,6 +12,7 @@ import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { Message } from "@/types/chat";
 
 export default function Chat() {
+  const [isResponding, setIsResponding] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -38,6 +39,24 @@ export default function Chat() {
       role: "agent",
     },
   ]);
+
+  const handleSendMessage = (message: string) => {
+    setIsResponding(true);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: Date.now().toString(), content: message, role: "user" },
+    ]);
+    setTimeout(() => handleResponse("RESPONSE"), 1000);
+  };
+
+  const handleResponse = (message: string) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: Date.now().toString(), content: message, role: "agent" },
+    ]);
+    setIsResponding(false);
+  };
+
   return (
     <div
       style={{
@@ -57,9 +76,9 @@ export default function Chat() {
             <AgentMessage key={message.id} message={message.content} />
           )
         )}
-        {/* <LoadingMessage /> */}
+        {isResponding && <LoadingMessage />}
       </ChatMessageList>
-      <ChatInputBox />
+      <ChatInputBox onSendMessage={handleSendMessage} />
     </div>
   );
 }

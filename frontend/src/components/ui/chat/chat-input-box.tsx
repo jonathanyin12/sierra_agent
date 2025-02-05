@@ -3,11 +3,22 @@ import { useState } from "react";
 import { ChatInput } from "@/components/ui/chat/chat-input";
 import { Button } from "@/components/ui/button";
 
-export default function ChatInputBox() {
+export default function ChatInputBox({
+  onSendMessage,
+}: {
+  onSendMessage: (message: string) => void;
+}) {
   const [input, setInput] = useState("");
+
+  const handleSendMessage = () => {
+    onSendMessage(input);
+    setInput("");
+  };
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      handleSendMessage();
     }
   };
   return (
@@ -25,6 +36,7 @@ export default function ChatInputBox() {
           type="submit"
           size="sm"
           className="ml-auto gap-1.5"
+          onClick={handleSendMessage}
         >
           Send Message
           <CornerDownLeft className="size-3.5" />
