@@ -4,6 +4,12 @@
 
 _How would you test for regressions as a customer requests new changes? What monitoring and alerting would you like available?_
 
+To ensure reliability as we roll out changes, we can run unit tests for core functionality to ensure that the new changes are not causing issues with the underlying code. Then, I would have a comprehensive end-to-end test suite with known existing customer scenarios. Within this suite, we would automatically compare responses between versions to ensure that the new changes are not causing issues. This would prevent regressions on existing functionality. I would also shadow test new versions alongside production to catch any issues early.
+
+Real-time metrics for the agent would be useful to monitor the quality of the agent over time. This would allow us to detect any issues early and make sure the agent is performing well. Real-time resolution rate, hallucination rate, and average handle time would be useful metrics to monitor. Tracking escalation patterns and error types would also be useful to identify any issues with the agent's ability to handle complex cases.
+
+For an alerting system, we would want to be alerted if the agent's performance significantly drops. This could mean that CSAT scores have dropped, resolution rates are very low, hallucination rates are high, or the average handle time is much higher than usual.
+
 ## Evaluation and Customer Success
 
 _How would you measure success for an AI agent? What metrics would give customers visibility to the quality of the AI agent?_
