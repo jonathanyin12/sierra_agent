@@ -16,6 +16,9 @@ def get_order(email: str, order_number: str):
     """
     email = email.lower()  # normalize email
     order_number = order_number.upper()  # normalize order number
+    # Ensure order number is prefixed with a #
+    if not order_number.startswith("#"):
+        order_number = f"#{order_number}"
     for order in CUSTOMER_ORDERS:
         if order["Email"] == email and order["OrderNumber"] == order_number:
             return order
