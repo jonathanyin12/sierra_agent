@@ -90,7 +90,7 @@ export default function Chat() {
         )}
         {isResponding && <LoadingMessage />}
       </ChatMessageList>
-      <ChatInputBox onSendMessage={handleSendMessage} />
+      <ChatInputBox onSendMessage={handleSendMessage} disabled={isResponding} />
     </div>
   );
 }

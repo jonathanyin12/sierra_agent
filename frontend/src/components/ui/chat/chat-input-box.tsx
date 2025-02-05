@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 
 export default function ChatInputBox({
   onSendMessage,
+  disabled,
 }: {
   onSendMessage: (message: string) => void;
+  disabled: boolean;
 }) {
   const [input, setInput] = useState("");
 
@@ -16,7 +18,7 @@ export default function ChatInputBox({
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey && !disabled) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -32,7 +34,7 @@ export default function ChatInputBox({
       ></ChatInput>
       <div className="flex items-center p-3 pt-0">
         <Button
-          disabled={!input}
+          disabled={!input || disabled}
           type="submit"
           size="sm"
           className="ml-auto gap-1.5"
