@@ -24,7 +24,7 @@ export default function Chat() {
       id: "2",
       content:
         "Of course! I'd be happy to help you plan your gear for backpacking in the Sierra Nevada. To provide the best recommendations, could you tell me a few things: How many days are you planning to be out? What time of year exactly? And do you have any backpacking experience?",
-      role: "agent",
+      role: "assistant",
     },
     {
       id: "3",
@@ -36,7 +36,7 @@ export default function Chat() {
       id: "4",
       content:
         "That's exciting! The Sierra Nevada is beautiful in July. For a first-time backpacker, I'd recommend focusing on the essentials: a lightweight tent or shelter, a sleeping bag rated for ~30°F nights, a reliable backpack (65L should be good for 3 days), and proper layers. Would you like me to break down the specific gear recommendations in more detail?",
-      role: "agent",
+      role: "assistant",
     },
   ]);
 
@@ -53,7 +53,7 @@ export default function Chat() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ messages: newMessages }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -64,7 +64,7 @@ export default function Chat() {
   const handleResponse = (message: string) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { id: Date.now().toString(), content: message, role: "agent" },
+      { id: Date.now().toString(), content: message, role: "assistant" },
     ]);
     setIsResponding(false);
   };

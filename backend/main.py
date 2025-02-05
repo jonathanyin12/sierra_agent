@@ -20,19 +20,23 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     message: str
 
+
+class Message(BaseModel):
+    role: str  # "user" or "assistant"
+    content: str
+
+class ChatRequest(BaseModel):
+    messages: list[Message]
+
+
+    
 client = AsyncOpenAI()
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
-    print(request.message)
+    openai_messages = [{"role": msg.role, "content": msg.content} for msg in request.messages]
     chat_completion = await client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": "Say this is a test",
-            }
-        ],
+        messages=openai_messages,
         model="gpt-4o",
     )
-    print(chat_completion)
-    return {"response": "Hello, world!"}
+    return {"response": chat_completion.choices[0].message.content}
