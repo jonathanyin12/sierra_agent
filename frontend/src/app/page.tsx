@@ -1,28 +1,43 @@
 "use client";
 
 import { useState } from "react";
-import { CornerDownLeft } from "lucide-react";
+
 import {
-  ChatBubble,
-  ChatBubbleAvatar,
-  ChatBubbleMessage,
-} from "@/components/ui/chat/chat-bubble";
-import { ChatInput } from "@/components/ui/chat/chat-input";
+  AgentMessage,
+  LoadingMessage,
+  UserMessage,
+} from "@/components/ui/chat/message";
+import ChatInputBox from "@/components/ui/chat/chat-input-box";
 import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
-import { Button } from "@/components/ui/button";
+import { Message } from "@/types/chat";
 
-export default function Home() {
-  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      // if (isGenerating || isLoading || !input) return;
-      // setIsGenerating(true);
-      // onSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
-    }
-  };
-
-  const [input, setInput] = useState("");
-
+export default function Chat() {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "1",
+      content:
+        "Hi! I'm planning a backpacking trip in the Sierra Nevada next month. Could you help me figure out what gear I need?",
+      role: "user",
+    },
+    {
+      id: "2",
+      content:
+        "Of course! I'd be happy to help you plan your gear for backpacking in the Sierra Nevada. To provide the best recommendations, could you tell me a few things: How many days are you planning to be out? What time of year exactly? And do you have any backpacking experience?",
+      role: "agent",
+    },
+    {
+      id: "3",
+      content:
+        "I'm planning a 3-day trip in mid-July. I've done some day hiking but this will be my first overnight backpacking trip!",
+      role: "user",
+    },
+    {
+      id: "4",
+      content:
+        "That's exciting! The Sierra Nevada is beautiful in July. For a first-time backpacker, I'd recommend focusing on the essentials: a lightweight tent or shelter, a sleeping bag rated for ~30°F nights, a reliable backpack (65L should be good for 3 days), and proper layers. Would you like me to break down the specific gear recommendations in more detail?",
+      role: "agent",
+    },
+  ]);
   return (
     <div
       style={{
@@ -35,67 +50,16 @@ export default function Home() {
       }}
     >
       <ChatMessageList>
-        <ChatBubble variant="sent">
-          <ChatBubbleAvatar fallback="US" />
-          <ChatBubbleMessage variant="sent">
-            Hello, how has your day been? I hope you are doing well.
-          </ChatBubbleMessage>
-        </ChatBubble>
-        <ChatBubble variant="received">
-          <ChatBubbleAvatar fallback="AI" />
-          <ChatBubbleMessage variant="received">
-            Hi, I am doing well, thank you for asking. How can I help you today?
-          </ChatBubbleMessage>
-        </ChatBubble>
-        <ChatBubble variant="sent">
-          <ChatBubbleAvatar fallback="US" />
-          <ChatBubbleMessage variant="sent">
-            Hello, how has your day been? I hope you are doing well.
-          </ChatBubbleMessage>
-        </ChatBubble>
-        <ChatBubble variant="received">
-          <ChatBubbleAvatar fallback="AI" />
-          <ChatBubbleMessage variant="received">
-            Hi, I am doing well, thank you for asking. How can I help you today?
-          </ChatBubbleMessage>
-        </ChatBubble>
-        <ChatBubble variant="sent">
-          <ChatBubbleAvatar fallback="US" />
-          <ChatBubbleMessage variant="sent">
-            Hello, how has your day been? I hope you are doing well.
-          </ChatBubbleMessage>
-        </ChatBubble>
-        <ChatBubble variant="received">
-          <ChatBubbleAvatar fallback="AI" />
-          <ChatBubbleMessage variant="received">
-            Hi, I am doing well, thank you for asking. How can I help you today?
-          </ChatBubbleMessage>
-        </ChatBubble>
-        {/* <ChatBubble variant="received">
-          <ChatBubbleAvatar fallback="AI" />
-          <ChatBubbleMessage isLoading />
-        </ChatBubble> */}
+        {messages.map((message) =>
+          message.role === "user" ? (
+            <UserMessage key={message.id} message={message.content} />
+          ) : (
+            <AgentMessage key={message.id} message={message.content} />
+          )
+        )}
+        {/* <LoadingMessage /> */}
       </ChatMessageList>
-      <div className="m-4 relative rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
-        <ChatInput
-          placeholder="Message Sierra Outfitters"
-          value={input}
-          onKeyDown={onKeyDown}
-          onChange={(e) => setInput(e.target.value)}
-          className="rounded-lg bg-background border-0 shadow-none focus-visible:ring-0"
-        ></ChatInput>
-        <div className="flex items-center p-3 pt-0">
-          <Button
-            disabled={!input}
-            type="submit"
-            size="sm"
-            className="ml-auto gap-1.5"
-          >
-            Send Message
-            <CornerDownLeft className="size-3.5" />
-          </Button>
-        </div>
-      </div>
+      <ChatInputBox />
     </div>
   );
 }
