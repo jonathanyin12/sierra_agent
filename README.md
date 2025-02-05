@@ -1,12 +1,17 @@
 # Sierra Take Home
 
-By Jonathan Yin
+Simple agent built using FastAPI and Next.js for Sierra take-home.
 
+## Report
 
+The report is available in `report.md`.
 
-## Setup
+## Setup instructions
+
 Follow the instructions below to setup the project.
+
 ### Frontend
+
 Install dependencies:
 
 ```
@@ -15,11 +20,13 @@ npm install
 ```
 
 Run frontend:
+
 ```
 npm run dev
 ```
 
 ### Backend
+
 Create and activate virtual environment:
 
 ```
@@ -45,4 +52,3 @@ Run backend:
 ```
 fastapi dev main.py
 ```
-
