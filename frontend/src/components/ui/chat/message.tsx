@@ -5,29 +5,19 @@ interface MessageProps {
   message: string;
 }
 
+const markdownComponents = {
+  h1: ({ ...props }) => <h1 className="text-3xl font-bold" {...props} />,
+  h2: ({ ...props }) => <h2 className="text-2xl font-semibold" {...props} />,
+  h3: ({ ...props }) => <h3 className="text-xl font-semibold" {...props} />,
+  h4: ({ ...props }) => <h4 className="text-lg font-semibold" {...props} />,
+};
+
 export const AgentMessage = ({ message }: MessageProps) => {
   return (
     <ChatBubble variant="received">
       <ChatBubbleAvatar src={"sierra.svg"} />
       <ChatBubbleMessage variant="received">
-        <ReactMarkdown
-          components={{
-            h1: ({ ...props }) => (
-              <h1 className="text-3xl font-bold" {...props} />
-            ),
-            h2: ({ ...props }) => (
-              <h2 className="text-2xl font-semibold" {...props} />
-            ),
-            h3: ({ ...props }) => (
-              <h3 className="text-xl font-semibold" {...props} />
-            ),
-            h4: ({ ...props }) => (
-              <h4 className="text-lg font-semibold" {...props} />
-            ),
-          }}
-        >
-          {message}
-        </ReactMarkdown>
+        <ReactMarkdown components={markdownComponents}>{message}</ReactMarkdown>
       </ChatBubbleMessage>
     </ChatBubble>
   );
@@ -38,24 +28,7 @@ export const UserMessage = ({ message }: MessageProps) => {
     <ChatBubble variant="sent">
       <ChatBubbleAvatar src={"sama.jpeg"} />
       <ChatBubbleMessage variant="sent">
-        <ReactMarkdown
-          components={{
-            h1: ({ ...props }) => (
-              <h1 className="text-3xl font-bold" {...props} />
-            ),
-            h2: ({ ...props }) => (
-              <h2 className="text-2xl font-semibold" {...props} />
-            ),
-            h3: ({ ...props }) => (
-              <h3 className="text-xl font-semibold" {...props} />
-            ),
-            h4: ({ ...props }) => (
-              <h4 className="text-lg font-semibold" {...props} />
-            ),
-          }}
-        >
-          {message}
-        </ReactMarkdown>
+        <ReactMarkdown components={markdownComponents}>{message}</ReactMarkdown>
       </ChatBubbleMessage>
     </ChatBubble>
   );
