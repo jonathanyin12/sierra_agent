@@ -1,6 +1,8 @@
 # Sierra Outfitters Agent
 
-Simple demo of a customer support agent powered by GPT-4o built using FastAPI and Next.js for Sierra take-home. The agent can check order status, provide order tracking links, offer discount codes, and respond in multiple languages.
+Simple demo of a customer support agent powered by GPT-4o built using FastAPI and Next.js.
+
+The agent can check order status, provide order tracking links, offer time-dependent discount codes, and respond in multiple languages.
 
 ## Report
 
