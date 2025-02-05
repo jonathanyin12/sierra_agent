@@ -1,9 +1,7 @@
-from enum import Enum
-
-from agent import get_agent_response
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from models import ChatRequest
+from utils import get_agent_response
 
 app = FastAPI()
 
@@ -14,20 +12,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class Role(str, Enum):
-    USER = "user"
-    ASSISTANT = "assistant"
-
-
-class Message(BaseModel):
-    role: Role
-    content: str
-
-
-class ChatRequest(BaseModel):
-    messages: list[Message]
 
 
 @app.post("/chat")

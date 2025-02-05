@@ -3,7 +3,8 @@ import json
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
-from tools import call_function, get_available_tools
+
+from .tools import call_function, get_available_tools
 
 load_dotenv()
 
@@ -25,9 +26,9 @@ async def excute_agent_loop(messages: list[ChatCompletionMessageParam]) -> str:
     max_iterations = 5
     iteration = 0
     while completion.choices[0].message.tool_calls and iteration < max_iterations:
-        messages.append(
-            completion.choices[0].message
-        )  # append model's function call message
+        # append model's function call message
+        messages.append(completion.choices[0].message)
+        # iterate over the tool calls
         for tool_call in completion.choices[0].message.tool_calls:
             name = tool_call.function.name
             args = json.loads(tool_call.function.arguments)
@@ -53,4 +54,8 @@ async def excute_agent_loop(messages: list[ChatCompletionMessageParam]) -> str:
 async def get_agent_response(messages: list[ChatCompletionMessageParam]) -> str:
     # Prepend the system message
     messages.insert(0, {"role": "system", "content": system_message()})
-    return await excute_agent_loop(messages)
+    try:
+        return await excute_agent_loop(messages)
+    except Exception as e:
+        print(e)
+        return "I'm sorry, I encountered an error. Please try again later."
