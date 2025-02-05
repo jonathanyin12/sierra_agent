@@ -10,7 +10,9 @@ const markdownComponents = {
   h2: ({ ...props }) => <h2 className="text-2xl font-semibold" {...props} />,
   h3: ({ ...props }) => <h3 className="text-xl font-semibold" {...props} />,
   h4: ({ ...props }) => <h4 className="text-lg font-semibold" {...props} />,
-  a: ({ ...props }) => <a className="text-blue-500 underline" {...props} />,
+  a: ({ ...props }) => (
+    <a className="text-blue-500 underline" target="_blank" {...props} />
+  ),
 };
 
 export const AgentMessage = ({ message }: MessageProps) => {
