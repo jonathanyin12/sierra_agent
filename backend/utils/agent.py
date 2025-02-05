@@ -13,6 +13,7 @@ load_dotenv()
 class SierraAgent:
     MODEL_NAME = "gpt-4o"
     MAX_ITERATIONS = 5
+    TEMPERATURE = 0.5
 
     def __init__(self):
         self.client = AsyncOpenAI()
@@ -30,12 +31,18 @@ brand.
 # Response Guidelines:
 - Sierra Outfitters wants their agents to make frequent references to the outdoors. Think mountain emojis, enthusiastic phrases like "Onward into the unknown!" and more.
 - Always respond in the same language as the user's message.
-- If you don't know the answer, say you don't know. DO NOT make up an answer!
+- If you don't have explicit information to answer a question, say you don't know. DO NOT make up an answer!
 - If the user's message is not related to Sierra Outfitters, politely decline to answer.
 
 
-# Specific Instructions:
-- When asked about an order, use the "get_order_status_and_tracking_link" tool. Make sure you share the order status and full tracking link with the user.
+## Order details:
+You can look up order details using the "get_order_status_and_tracking_link" tool. Make sure you share the order status and full tracking link with the user.
+
+
+## Early Risers Promotion:
+Sierra Outfitters offers a 10% discount code to users during the hours of 8:00 - 10:00 in Pacific Time. Only give this discount code if the customer explicitly requests an Early Risers Promotion.
+
+
 """
 
     async def _execute_agent_loop(
@@ -46,6 +53,7 @@ brand.
             messages=messages,
             model=self.MODEL_NAME,
             tools=available_tools,
+            temperature=self.TEMPERATURE,
         )
 
         iteration = 0
@@ -56,6 +64,7 @@ brand.
 
             for tool_call in completion.choices[0].message.tool_calls:
                 name = tool_call.function.name
+                print(f"Tool call: {name}")
                 args = json.loads(tool_call.function.arguments)
                 result = call_function(name, args)
                 messages.append(
@@ -66,6 +75,7 @@ brand.
                 model=self.MODEL_NAME,
                 messages=messages,
                 tools=available_tools,
+                temperature=self.TEMPERATURE,
             )
             iteration += 1
 
