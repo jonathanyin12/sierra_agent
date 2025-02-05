@@ -27,3 +27,35 @@ An additional metric unique to AI agents is hallucination/error rate, which is t
 ## Customer Prioritization
 
 _Please prioritize the remaining customer feature requests, share how you choose to prioritize them, and what additional information you would seek before implementation._
+
+Ideally, I would ask the customer what inquiries they see most frequently from their customers and prioritize each feature based on that. However, for this exercise, I will prioritize based on my best guess of what are the most important commonly asked questions.
+
+Here's my prioritization of the remaining 3 features:
+
+1. Answer questions about specific products
+2. Answer questions about product availability
+3. Provide guidance on hiking questions
+
+Answering questions about specific products is the most important because it is a very common customer request and is a key part of the agent's ability to help customers. Product availability is also important, but questions pertaining to product availability likely occur less frequently than general product questions. This is because the company site can show that a product is out of stock, so it is unlikely that the customer will ask the agent about it.
+
+Providing guidance on hiking questions is the least important of the three because it is more so general advice and less specific to the company's products.
+
+Before implementing these features, I would discuss with the customer the following questions:
+
+For product-specific questions:
+
+- What product data is available and in what format?
+- Are there existing product documentation or knowledge bases we can leverage?
+- What are the most common types of product questions received?
+
+For product availability:
+
+- Is there an existing API for real-time inventory checks?
+- What is the desired response when items are out of stock (e.g., suggest alternatives, notify when back in stock)?
+
+For hiking guidance:
+
+- What is the scope of hiking advice expected (gear recommendations, trail difficulty, safety tips)?
+- Does the company have existing hiking guides or content we can utilize?
+- Are there liability concerns to consider when providing outdoor activity advice?
+- Should recommendations be tailored to specific regions or seasons?
