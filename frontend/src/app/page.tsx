@@ -42,11 +42,23 @@ export default function Chat() {
 
   const handleSendMessage = (message: string) => {
     setIsResponding(true);
-    setMessages((prevMessages) => [
-      ...prevMessages,
+    const newMessages: Message[] = [
+      ...messages,
       { id: Date.now().toString(), content: message, role: "user" },
-    ]);
-    setTimeout(() => handleResponse("RESPONSE"), 1000);
+    ];
+    setMessages(newMessages);
+
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        handleResponse(data.response);
+      });
   };
 
   const handleResponse = (message: string) => {
