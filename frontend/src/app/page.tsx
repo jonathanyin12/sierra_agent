@@ -10,6 +10,7 @@ import {
 import ChatInputBox from "@/components/ui/chat/chat-input-box";
 import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { Message } from "@/types/chat";
+import { Button } from "@/components/ui/button";
 
 export default function Chat() {
   const [isResponding, setIsResponding] = useState(false);
@@ -80,6 +81,12 @@ export default function Chat() {
         flexDirection: "column",
       }}
     >
+      <div className="flex items-center justify-between p-4 border-b">
+        <div className="text-2xl font-bold">
+          {"Conversation with Sierra Outfitters"}
+        </div>
+        <Button onClick={() => setMessages([])}>Reset Chat</Button>
+      </div>
       <ChatMessageList>
         {messages.map((message) =>
           message.role === "user" ? (
