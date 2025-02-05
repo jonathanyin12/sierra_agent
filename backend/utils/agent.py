@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
 
+from ..models import Message
 from .tools import call_function, get_available_tools
 
 load_dotenv()
@@ -51,9 +52,13 @@ async def excute_agent_loop(messages: list[ChatCompletionMessageParam]) -> str:
     return completion.choices[0].message.content
 
 
-async def get_agent_response(messages: list[ChatCompletionMessageParam]) -> str:
-    # Prepend the system message
-    messages.insert(0, {"role": "system", "content": system_message()})
+async def get_agent_response(messages: list[Message]) -> str:
+    chat_messages = [
+        {"role": "system", "content": system_message()}
+    ]  # prepend system message
+    for msg in messages:
+        chat_messages.append({"role": msg.role, "content": msg.content})
+
     try:
         return await excute_agent_loop(messages)
     except Exception as e:
